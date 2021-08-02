@@ -3,8 +3,8 @@ import Timer from "../organisms/Timer";
 import Buttons from "../organisms/Buttons";
 import Setting from "../organisms/Setting";
 
-const Pomodoro = ({ time }) => {
-	const [timer, setTimer] = useState({ seconds: time.work, isRunning: false, type: "work" });
+const Pomodoro = ({ duration, setDuration }) => {
+	const [timer, setTimer] = useState({ seconds: duration.work, isRunning: false, type: "work" });
 	const intervalRef = useRef();
 
 	useEffect(() => {
@@ -12,6 +12,10 @@ const Pomodoro = ({ time }) => {
 			onComplete();
 		}
 	}, [timer]);
+
+	useEffect(() => {
+		reset("work");
+	}, [duration]);
 
 	const start = () => {
 		if (timer.isRunning === false)
@@ -29,7 +33,7 @@ const Pomodoro = ({ time }) => {
 
 	const reset = (next = timer.type) => {
 		clearInterval(intervalRef.current);
-		setTimeout(() => setTimer({ ...timer, isRunning: false, seconds: time[next], type: next }), 250);
+		setTimeout(() => setTimer({ ...timer, isRunning: false, seconds: duration[next], type: next }), 250);
 	};
 
 	const onComplete = () => {
@@ -44,7 +48,7 @@ const Pomodoro = ({ time }) => {
 	};
 
 	const getPercent = () => {
-		const percent = ((time[timer.type] - timer.seconds) / time[timer.type]) * 100;
+		const percent = ((duration[timer.type] - timer.seconds) / duration[timer.type]) * 100;
 		return percent;
 	};
 
@@ -59,6 +63,7 @@ const Pomodoro = ({ time }) => {
 				isRunning={timer.isRunning}
 				color={getColor()}
 			/>
+			<Setting setDuration={setDuration} work={duration.work} rest={duration.rest} />
 		</div>
 	);
 };

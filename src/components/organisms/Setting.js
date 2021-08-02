@@ -9,9 +9,9 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import SettingsIcon from "@material-ui/icons/Settings";
 
-const FormDialog = ({ changeIntervals, work, rest }) => {
+const FormDialog = ({ setDuration, work, rest }) => {
 	const [open, setOpen] = React.useState(false);
-	const [formData, setFormData] = React.useState({ work, rest });
+	const [formData, setFormData] = React.useState({ work: (work / 60).toFixed(2), rest: (rest / 60).toFixed(2) });
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -19,7 +19,8 @@ const FormDialog = ({ changeIntervals, work, rest }) => {
 
 	const handleClose = () => {
 		setOpen(false);
-		changeIntervals(formData);
+		if (Math.round(+formData.work * 60) !== work || Math.round(+formData.rest * 60) !== rest)
+			setDuration({ work: Math.round(+formData.work * 60), rest: Math.round(+formData.rest * 60) });
 	};
 
 	return (
@@ -36,7 +37,7 @@ const FormDialog = ({ changeIntervals, work, rest }) => {
 						margin="dense"
 						id="work"
 						label="Work Time(in minutes)"
-						type="text"
+						type="number"
 						value={formData.work}
 						onChange={(e) => {
 							setFormData({ ...formData, work: e.target.value });
@@ -48,7 +49,7 @@ const FormDialog = ({ changeIntervals, work, rest }) => {
 						margin="dense"
 						id="name"
 						label="Rest Time(in minutes)"
-						type="text"
+						type="number"
 						value={formData.rest}
 						onInput={(e) => {
 							setFormData({ ...formData, rest: e.target.value });
