@@ -9,8 +9,7 @@ const Pomodoro = ({ time }) => {
 
 	useEffect(() => {
 		if (timer.seconds === 0) {
-			if (timer.type === "work") reset("rest");
-			else reset("work");
+			onComplete();
 		}
 	}, [timer]);
 
@@ -28,14 +27,18 @@ const Pomodoro = ({ time }) => {
 		}
 	};
 
-	const reset = (next = time) => {
-		if (timer.isRunning === true) {
-			clearInterval(intervalRef.current);
-			setTimeout(() => setTimer({ ...timer, isRunning: false, seconds: time[next], type: next }), 500);
-		}
+	const reset = (next = timer.type) => {
+		clearInterval(intervalRef.current);
+		setTimeout(() => setTimer({ ...timer, isRunning: false, seconds: time[next], type: next }), 250);
 	};
 
-	const getColor = (type) => {
+	const onComplete = () => {
+		console.log("oncomp");
+		if (timer.type === "work") reset("rest");
+		else reset("work");
+	};
+
+	const getColor = (type = timer.type) => {
 		if (type === "work") return "secondary";
 		return "primary";
 	};
@@ -47,9 +50,15 @@ const Pomodoro = ({ time }) => {
 
 	return (
 		<div>
-			<Timer seconds={timer.seconds} isRunning={timer.isRunning} percent={getPercent()} color={getColor(timer.type)} />
-			<button onClick={start}>start</button>
-			<button onClick={stop}>stop</button>
+			<Timer seconds={timer.seconds} isRunning={timer.isRunning} percent={getPercent()} color={getColor()} />
+			<Buttons
+				start={start}
+				stop={stop}
+				reset={reset}
+				onComplete={onComplete}
+				isRunning={timer.isRunning}
+				color={getColor()}
+			/>
 		</div>
 	);
 };
