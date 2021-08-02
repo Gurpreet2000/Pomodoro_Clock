@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import Layout from "../templates/Layout";
 import Timer from "../organisms/Timer";
 import Buttons from "../organisms/Buttons";
 import Setting from "../organisms/Setting";
@@ -37,7 +38,6 @@ const Pomodoro = ({ duration, setDuration }) => {
 	};
 
 	const onComplete = () => {
-		console.log("oncomp");
 		if (timer.type === "work") reset("rest");
 		else reset("work");
 	};
@@ -53,18 +53,18 @@ const Pomodoro = ({ duration, setDuration }) => {
 	};
 
 	return (
-		<div>
+		<Layout>
 			<Timer seconds={timer.seconds} isRunning={timer.isRunning} percent={getPercent()} color={getColor()} />
+			<Setting setDuration={setDuration} work={duration.work} rest={duration.rest} />
 			<Buttons
 				start={start}
 				stop={stop}
 				reset={reset}
 				onComplete={onComplete}
-				isRunning={timer.isRunning}
+				time={timer.seconds}
 				color={getColor()}
 			/>
-			<Setting setDuration={setDuration} work={duration.work} rest={duration.rest} />
-		</div>
+		</Layout>
 	);
 };
 

@@ -24,7 +24,7 @@ const FormDialog = ({ setDuration, work, rest }) => {
 	};
 
 	return (
-		<div>
+		<div className="setting">
 			<IconButton color="inherit" onClick={handleClickOpen}>
 				<SettingsIcon />
 			</IconButton>

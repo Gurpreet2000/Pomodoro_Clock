@@ -11,13 +11,15 @@ const Timer = ({ seconds, isRunning, percent, color }) => {
 	};
 
 	return (
-		<CircularProgressWithLabel
-			value={100 - percent}
-			size={250}
-			color={color}
-			thickness={1}
-			text={formatTime(seconds)}
-		/>
+		<div className="timer">
+			<CircularProgressWithLabel
+				value={100 - percent}
+				size={250}
+				color={color}
+				thickness={1}
+				text={formatTime(seconds)}
+			/>
+		</div>
 	);
 };
 

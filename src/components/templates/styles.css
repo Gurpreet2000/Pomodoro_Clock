@@ -1,0 +1,22 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+.layout {
+	width: 100%;
+	height: 100vh;
+	background-color: #111;
+	color: white;
+	display: grid;
+	place-content: center;
+	row-gap: 1em;
+}
+.timer {
+	place-self: end;
+}
+
+.buttons {
+	display: flex;
+	justify-content: space-between;
+	grid-column: 1/3;
+}

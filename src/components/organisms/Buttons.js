@@ -1,8 +1,14 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 
-const Buttons = ({ start, stop, reset, onComplete, isRunning, color }) => {
+const Buttons = ({ start, stop, reset, onComplete, time, color }) => {
 	const [status, setStatus] = useState(-1);
+
+	useEffect(() => {
+		if (time === 0) {
+			setStatus(-1);
+		}
+	}, [time]);
 
 	const onClick = (fn, nextStatus) => {
 		return () => {
@@ -31,18 +37,19 @@ const Buttons = ({ start, stop, reset, onComplete, isRunning, color }) => {
 				btnA.text = "Start";
 				btnB.text = "Stop";
 				btnA.props.onClick = onClick(start, 1);
-				btnB.props.disabled = true;
+				btnB.props.color = "default";
+				btnB.props.disableRipple = true;
 		}
 
 		return (
-			<Fragment>
+			<div className="buttons">
 				<Button variant="contained" color={color} {...btnA.props}>
 					{btnA.text}
 				</Button>
 				<Button variant="contained" color={color} {...btnB.props}>
 					{btnB.text}
 				</Button>
-			</Fragment>
+			</div>
 		);
 	};
 	return renderButtons();
